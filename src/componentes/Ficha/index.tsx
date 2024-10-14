@@ -5,36 +5,54 @@ import {Form} from './estilo'
 
 function Ficha(){
   const {encontrarFicha} = useSistema()
-  const pontosIniciais = 20
+  const pontosIniciais = 10
   const [pontos, setPontos]= useState(pontosIniciais)
   const [mecanica,setMecanica]= useState(0)
   const [sabedoria,setSabedoria]= useState(0)
   const [energia,setEnergia]= useState(0)
   const [nome,setNome]= useState('')
-
+  const [vida, setVida]= useState(0)
   function informacaoDaFicha(evento:React.FormEvent){
     evento.preventDefault()
+
+    const vidaCalculada = mecanica + sabedoria + energia;
+    setVida(vidaCalculada)
+    
     if (pontos <= 0){
-      montarFicha()
-    }
-    function montarFicha(){
       const informacaoDoPersonagem:Personagem= {
         nome:nome,
         mestre: '',
+        vida: vidaCalculada,
         atributos:{
           mecanica,
           sabedoria,
           energia
         }
       }
-
-      encontrarFicha({ficha: informacaoDoPersonagem})      
-    }
     
+      return encontrarFicha(informacaoDoPersonagem) 
     
   }
 
+  function modificarFicha(atributo:string){
+    if (pontos > 0 ){
+      switch (atributo){
+        case 'mecanica' :
+          setMecanica(mecanica+1)
+          break
+        case 'sabedoria':
+          setSabedoria(sabedoria+1)
+          break
+        case 'energia':
+          setEnergia(energia+1)
+          break
+      }
 
+    }
+
+         
+  }
+  
   return (
     <Form onSubmit={informacaoDaFicha} >
       <div>
@@ -51,12 +69,7 @@ function Ficha(){
           <label>Mecânica ({mecanica}): </label>
           <button
             type="button"
-            onClick={() => {
-              if (pontos > 0) {
-                setMecanica(mecanica + 1)
-                setPontos(pontos - 1)
-              }
-            }}
+            onClick={() => modificarFicha('mecanica')}
           >
             +
           </button>
@@ -130,7 +143,7 @@ function Ficha(){
     </Form>
   )
 }
-
+}
 export {
   Ficha
 }

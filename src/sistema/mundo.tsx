@@ -1,15 +1,17 @@
 import React, {useState, useEffect, useContext, createContext, ReactNode} from 'react'
-import {PersonagemProps,Personagem} from './interfaces/interfaces'
+import {PersonagemProps,Personagem, SistemaContextoProps} from './interfaces/interfaces'
 
 
-const sistemaContexto: React.Context<{}> = createContext({})
+const sistemaContexto = createContext<SistemaContextoProps|undefined>(undefined)
 
 function Sistema({ children }: { children: ReactNode }){
   const [ personagemFicha , setPersonagemFicha ] = useState<Personagem | null>(null)
 
-  function encontrarFicha({ficha}:{ficha:Personagem}){
+  function encontrarFicha(ficha:Personagem){
+    setPersonagemFicha(ficha)
     localStorage.setItem('@personagemFicha',JSON.stringify(ficha))
-  }
+
+    }
   
   function Teste(nivel:number, sucessoMinimo:number){
     let paradaDeDados:number
@@ -40,20 +42,17 @@ function Sistema({ children }: { children: ReactNode }){
 
     function mecanica(){  
       rolagem(personagemFicha.atributos.mecanica)
-      const sucesso_ou_Falha = sucessoOuFalha()      
-      return sucesso_ou_Falha
+      return sucessoOuFalha()
     }
 
     function sabedoria(){
       rolagem(personagemFicha.atributos.sabedoria)
-      const sucesso_ou_Falha = sucessoOuFalha()      
-      return sucesso_ou_Falha
+      return sucessoOuFalha()
     }
 
     function energia(){
       rolagem(personagemFicha.atributos.energia)
-      const sucesso_ou_Falha = sucessoOuFalha()      
-      return sucesso_ou_Falha
+      return sucessoOuFalha()
     }
 
     return{
@@ -66,7 +65,11 @@ function Sistema({ children }: { children: ReactNode }){
   useEffect(()=>{
     const personagemFicha = localStorage.getItem('@personagemFicha')
     if(personagemFicha){
-      setPersonagemFicha(JSON.parse(personagemFicha))
+      try {
+        setPersonagemFicha(JSON.parse(personagemFicha) as Personagem)
+      } catch (error) {
+        console.log(error, 'erro no encontro')
+      }
     }
   },[])
   return(
@@ -84,6 +87,10 @@ function Sistema({ children }: { children: ReactNode }){
 
 function useSistema(){
   const contexto= useContext(sistemaContexto)
+  if (!contexto){
+    throw new Error('useSistema deve ser usado dentro de um <Sistema>')
+  }
+  
   return contexto
 }
 
