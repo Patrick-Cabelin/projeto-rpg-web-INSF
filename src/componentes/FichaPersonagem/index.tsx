@@ -5,26 +5,29 @@ import { useSistema } from '../../sistema/mundo'
 
 function FichaDePersonagem(){
     const {personagemFicha,Teste}= useSistema()
-    const [nome,setNome]=useState()
-    const [mestre,setMestre]=useState()
-    const [mecanica,setMecanica]=useState()
-    const [sabedoria,setSabedoria]=useState()
-    const [energia,setEnergia]=useState()
+    const [fichaPersonagem,setFichaPersonagem]= useState<Personagem | null>(null)
+    const [nome,setNome]=useState<string>('')
+    const [mestre,setMestre]=useState<string>('')
+    const [mecanica,setMecanica]=useState<number>(0)
+    const [sabedoria,setSabedoria]=useState<number>(0)
+    const [energia,setEnergia]=useState<number>(0)
+
+
 
     function fazerTeste(atributo:string){
       let resultado : boolean  
       switch (typeof atributo == typeof '' ){
             case atributo == 'mecanica':
-                resultado= Teste(3,6).mecanica()
+                resultado= Teste?.(3,6).mecanica()
 
                 console.log(resultado)                
                 break
             case atributo == 'sabedoria':
-                resultado= Teste(6,5).sabedoria()
+                resultado= Teste?.(6,5).sabedoria()
                 console.log(resultado)
                 break
             case atributo =='energia':
-                resultado= Teste(5,4).energia()
+                resultado= Teste?.(5,4).energia()
                 console.log(resultado)
                 
                 break
@@ -32,13 +35,15 @@ function FichaDePersonagem(){
                 console.log(atributo) 
         }
     }
+    console.log(fichaPersonagem,'console')
     useEffect(()=>{
-        if (personagemFicha){
-            setNome(personagemFicha.nome)
-            setMestre(personagemFicha.mestre)
-            setMecanica(personagemFicha.atributos.mecanica)
-            setSabedoria(personagemFicha.atributos.sabedoria)
-            setEnergia(personagemFicha.atributos.energia)
+      setFichaPersonagem(personagemFicha)
+        if (fichaPersonagem){
+            setNome(fichaPersonagem.nome)
+            setMestre(fichaPersonagem.mestre)
+            setMecanica(fichaPersonagem.atributos.mecanica)
+            setSabedoria(fichaPersonagem.atributos.sabedoria)
+            setEnergia(fichaPersonagem.atributos.energia)
         }
     },[])
     return (

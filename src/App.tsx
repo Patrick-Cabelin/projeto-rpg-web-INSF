@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Ficha } from './componentes/Ficha'
 import { FichaDePersonagem } from './componentes/FichaPersonagem'
 

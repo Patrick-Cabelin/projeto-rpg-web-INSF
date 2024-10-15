@@ -5,15 +5,14 @@ import {PersonagemProps,Personagem, SistemaContextoProps} from './interfaces/int
 const sistemaContexto = createContext<SistemaContextoProps|undefined>(undefined)
 
 function Sistema({ children }: { children: ReactNode }){
-  const [ personagemFicha , setPersonagemFicha ] = useState<Personagem | null>(null)
-
+  const [ personagemFicha , setPersonagemFicha ] = useState<Personagem| null>(null)
   function encontrarFicha(ficha:Personagem){
     setPersonagemFicha(ficha)
     localStorage.setItem('@personagemFicha',JSON.stringify(ficha))
 
     }
   
-  function Teste(nivel:number, sucessoMinimo:number){
+  function Teste(nivel: number, sucessoMinimo: number): { mecanica: () => boolean; sabedoria: () => boolean; energia: () => boolean } {
     let paradaDeDados:number
     let valoresDados:number[]= []
     
@@ -41,17 +40,17 @@ function Sistema({ children }: { children: ReactNode }){
     }
 
     function mecanica(){  
-      rolagem(personagemFicha.atributos.mecanica)
+      rolagem(personagemFicha?.atributos.mecanica ?? 0)
       return sucessoOuFalha()
     }
 
     function sabedoria(){
-      rolagem(personagemFicha.atributos.sabedoria)
+      rolagem(personagemFicha?.atributos.sabedoria ?? 0)
       return sucessoOuFalha()
     }
 
     function energia(){
-      rolagem(personagemFicha.atributos.energia)
+      rolagem(personagemFicha?.atributos.energia ?? 0)
       return sucessoOuFalha()
     }
 
@@ -87,10 +86,8 @@ function Sistema({ children }: { children: ReactNode }){
 
 function useSistema(){
   const contexto= useContext(sistemaContexto)
-  if (!contexto){
-    throw new Error('useSistema deve ser usado dentro de um <Sistema>')
-  }
-  
+  if (!contexto) throw new Error('useSistema deve ser usado dentro de um <Sistema>')
+
   return contexto
 }
 

@@ -12,6 +12,7 @@ function Ficha(){
   const [energia,setEnergia]= useState(0)
   const [nome,setNome]= useState('')
   const [vida, setVida]= useState(0)
+
   function informacaoDaFicha(evento:React.FormEvent){
     evento.preventDefault()
 
@@ -31,7 +32,7 @@ function Ficha(){
       }
     
       return encontrarFicha(informacaoDoPersonagem) 
-    
+    }
   }
 
   function modificarFicha(atributo:string){
@@ -49,8 +50,7 @@ function Ficha(){
       }
 
     }
-
-         
+    
   }
   
   return (
@@ -142,8 +142,9 @@ function Ficha(){
       </div>
     </Form>
   )
+
 }
-}
+
 export {
   Ficha
 }

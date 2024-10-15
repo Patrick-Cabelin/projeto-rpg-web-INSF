@@ -44,6 +44,7 @@ interface MestreProps{
 interface SistemaContextoProps{
   personagemFicha: Personagem | null
   encontrarFicha:(ficha:Personagem)=>void
+  Teste?: (nivel:number, sucessoMinimo:number)=> boolean | number | object
 }
 export type {
   Personagem, 
