@@ -45,6 +45,8 @@ interface SistemaContextoProps{
   personagemFicha: Personagem | null
   encontrarFicha:(ficha:Personagem)=>void
   Teste?: (nivel:number, sucessoMinimo:number)=> boolean | number | object
+  VerificarEstado: () => boolean;
+  Verificacao: (estadoVerificado: string) => void
 }
 export type {
   Personagem, 

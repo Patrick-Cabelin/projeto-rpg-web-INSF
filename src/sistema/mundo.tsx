@@ -6,33 +6,34 @@ const sistemaContexto = createContext<SistemaContextoProps|undefined>(undefined)
 
 function Sistema({ children }: { children: ReactNode }){
   const [ personagemFicha , setPersonagemFicha ] = useState<Personagem| null>(null)
+
+  function Verificacao(estadoVerificado: string){
+    if(estadoVerificado === 'Combate'){
+      ve
+    } 
+  }
   function encontrarFicha(ficha:Personagem){
     setPersonagemFicha(ficha)
     localStorage.setItem('@personagemFicha',JSON.stringify(ficha))
 
-    }
-  
-  function Teste(nivel: number, sucessoMinimo: number): { mecanica: () => boolean; sabedoria: () => boolean; energia: () => boolean } {
-    let paradaDeDados:number
+  }
+
+  function Teste(nivel: number, sucessoMinimo: number): { mecanica: () => boolean[]; sabedoria: () => boolean; energia: () => boolean } {
     let valoresDados:number[]= []
     
-    function rolagem(quantidadeDeDados:number){
-      paradaDeDados = quantidadeDeDados
-      let valorDoDado:number
-
-      do{
-        valorDoDado = Math.floor(Math.random()*10)+1
+    function rolagem(quantidadeDeDados: number): number[] {
+      valoresDados = []
+      const mediaAtributos= ((personagemFicha?.atributos.mecanica + personagemFicha?.atributos.sabedoria + personagemFicha?.atributos.energia)/3) * 0.05
+      for (let i = 0; i < quantidadeDeDados; i++) {
+        const valorDoDado = Math.floor(Math.random()**Math.cos(Math.random()*mediaAtributos)**1* 10) + 1
+        console.log(valorDoDado, Math.floor(Math.random()**Math.cos(Math.random()*mediaAtributos)*10 ) )
         valoresDados.push(valorDoDado)
-        paradaDeDados--
       }
-      while(paradaDeDados !=0)
-      
-     
+      return valoresDados
     }
 
     function sucessoOuFalha(){
       const sucesso = valoresDados.filter(dado => dado >= nivel)
-      console.log(sucesso, 'quantos foi? de:', valoresDados)
       if (sucesso.length >= sucessoMinimo){
         return true
       }
@@ -41,17 +42,20 @@ function Sistema({ children }: { children: ReactNode }){
 
     function mecanica(){  
       rolagem(personagemFicha?.atributos.mecanica ?? 0)
-      return sucessoOuFalha()
+      let resultado= [sucessoOuFalha(), valoresDados]
+      return resultado
     }
 
     function sabedoria(){
-      rolagem(personagemFicha?.atributos.sabedoria ?? 0)
-      return sucessoOuFalha()
+       rolagem(personagemFicha?.atributos.sabedoria ?? 0)
+      let resultado= [sucessoOuFalha(), valoresDados]
+      return resultado
     }
 
     function energia(){
       rolagem(personagemFicha?.atributos.energia ?? 0)
-      return sucessoOuFalha()
+      let resultado= [sucessoOuFalha(), valoresDados]
+      return resultado
     }
 
     return{
@@ -61,21 +65,26 @@ function Sistema({ children }: { children: ReactNode }){
     }
   }
 
+  useEffect(()=>{},[])
+
   useEffect(()=>{
     const personagemFicha = localStorage.getItem('@personagemFicha')
     if(personagemFicha){
       try {
-        setPersonagemFicha(JSON.parse(personagemFicha) as Personagem)
+        setPersonagemFicha(JSON.parse(personagemFicha))
       } catch (error) {
-        console.log(error, 'erro no encontro')
+        console.warn(error, 'erro no encontro')
       }
     }
   },[])
+
   return(
     <sistemaContexto.Provider value={{
       encontrarFicha,
       personagemFicha,
       Teste,
+      Verificacao,
+      VerificarEstado
     }}>
       {children}
     </sistemaContexto.Provider>

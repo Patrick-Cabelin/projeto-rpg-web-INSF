@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Caixa= styled.div`
     width: 30rem;
-    height: 50rem;
+    height: 70rem;
 
     margin: 3.5rem;
     padding: 4rem;

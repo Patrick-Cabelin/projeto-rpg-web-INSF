@@ -12,4 +12,7 @@ export default createGlobalStyle`
   background: #175718;
 }
 
+main{
+  display: flex;
+}
 `
