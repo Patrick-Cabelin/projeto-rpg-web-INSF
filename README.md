@@ -1,8 +1,7 @@
-* ideia para trabalho do final do curso de informatica no ensino de fisica
-
 *Ideia 
 
 ** Um mini rpg de texto, inspirado no estilo novel, final fantasy, vampiro a mascara, mago acensão
+** que se passa no apocalipse
 
 ### Progresso
 

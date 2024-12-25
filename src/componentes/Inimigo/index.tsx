@@ -1,4 +1,4 @@
-import { Caixa } from "../FichaPersonagem/estilo"
+import { Caixa } from "../Jogador/estilo"
 import { Inimigo, InimigoProps } from "../../sistema/interfaces/interfaces"
 import { useSistema } from "../../sistema/mundo"
 
@@ -20,7 +20,7 @@ function InimigoFicha(){
         setVida(vidaCalculada)
     },[])
     return(
-        <Caixa className='inimigo'>
+        <Caixa className=''>
         <h2>{nome}</h2>
         <p>mestre: <strong>{mestre}</strong></p>
         <p>vida:{vida} </p>

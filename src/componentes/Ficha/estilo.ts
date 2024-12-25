@@ -10,7 +10,7 @@ const Form = styled.form`
     gap: 1rem;
     width: 100%;
     height: 100%;
-    background-color: #3aff;
+    background: #23df;
     font-size: 2rem;
 
   }

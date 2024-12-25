@@ -1,59 +1,33 @@
-interface Personagem {
+interface FichaBasica {
   nome: string
-  mestre: string
   vida: number
   atributos: {
-    mecanica: number
-    sabedoria: number
-    energia: number
+    forca: number
+    agilidade: number
+    vigor: number
   }
 }
 
-interface PersonagemProps {
-  personagem: Personagem
-}
-
-interface Inimigo{
+type Item= {
+  id: number
   nome: string
-  vida: number
-  mestre: string
-  atributos:{
-    mecanica:number
-    sabedoria:number
-    energia:number
-  }
+  quantidade: number
+  dano?: number
+  cura?: number
+  eConsumivel?: boolean
+  acao?: () => void
 }
-
-interface InimigoProps{
-  inimigo: Inimigo
+interface Personagem extends FichaBasica{
+  inventario: Item[]
 }
-
-interface Mestre {
-  nome:string
-  atributos:{
-    mecanica:number
-    sabedoria:number
-    energia:number
-  }
-}
-
-interface MestreProps{
-  mestre: Mestre
-}
+interface Inimigo extends FichaBasica{}
 
 interface SistemaContextoProps{
   personagemFicha: Personagem | null
   encontrarFicha:(ficha:Personagem)=>void
-  Teste?: (nivel:number, sucessoMinimo:number)=> boolean | number | object
-  VerificarEstado: () => boolean;
-  Verificacao: (estadoVerificado: string) => void
 }
 export type {
   Personagem, 
-  PersonagemProps,
   Inimigo,
-  InimigoProps,
-  Mestre,
-  MestreProps,
   SistemaContextoProps
 }

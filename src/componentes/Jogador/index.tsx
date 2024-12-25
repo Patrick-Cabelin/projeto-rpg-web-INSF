@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 
 import { useSistema } from '../../sistema/mundo'
 
-function FichaDePersonagem({estado}: {estado: string}){
+function JogadorFicha({estado}: {estado?: string}){
     const {personagemFicha,Teste}= useSistema()
     const [nome,setNome]=useState<string>('')
     const [mestre,setMestre]=useState<string>('')
@@ -17,29 +17,7 @@ function FichaDePersonagem({estado}: {estado: string}){
     
 
     function fazerTeste(atributo:string){
-      let resultadoTeste
-      switch (typeof atributo == typeof '' ){
-            case atributo == 'mecanica':
-              resultadoTeste = Teste?.(3,3).mecanica()
-              
-              return setResultado(resultadoTeste)
-              break
-                
-            case atributo == 'sabedoria':
-              resultadoTeste=  Teste?.(4,3).sabedoria()
-                
-              return setResultado(resultadoTeste)
-              break
-              
-            case atributo =='energia':
-              resultadoTeste= Teste?.(4,3).energia()
-              
-              return setResultado(resultadoTeste)
-              break
-                
-            default:
-                console.log(atributo) 
-        }
+     
     }
 
     useEffect(() => {
@@ -74,5 +52,5 @@ function FichaDePersonagem({estado}: {estado: string}){
   } 
 
 export {
-  FichaDePersonagem
+  JogadorFicha
 }

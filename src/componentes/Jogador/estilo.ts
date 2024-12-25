@@ -11,18 +11,16 @@ const Caixa= styled.div`
     flex-direction: column;
     gap: 2rem;
 
-    background-color: #3aff;
+    background: url('/public/image.png');
     font-size: 2rem;
 
     p{
-        color: #a20;
+        color: #000;
         font-weight: 900;
         font-size: 3rem;
 
         strong{
-            color: #084909;
-            -webkit-text-stroke: #e50db7 0.17rem;
-
+            color: #464646;
         }
     }
 
