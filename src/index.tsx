@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import memoria from './sistema/gerenciamento/memoria'
+import {memoria} from './sistema/gerenciamento/memoria'
 
 
 import GlobalStyles from './estilos/global'

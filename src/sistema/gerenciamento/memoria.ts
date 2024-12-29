@@ -1,4 +1,3 @@
-// memoria.ts
 import { configureStore } from '@reduxjs/toolkit';
 
 const memoria = configureStore({
@@ -7,4 +6,7 @@ const memoria = configureStore({
 
 export type RootState = ReturnType<typeof memoria.getState>;
 export type AppDispatch = typeof memoria.dispatch;
-export default memoria;memoria
+
+export {
+  memoria
+}
