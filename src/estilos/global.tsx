@@ -9,7 +9,10 @@ export default createGlobalStyle`
 }
 :root{
   font-size: 62.5%;
-  background: #141313;
+  background:${({theme:tema})=>tema.CORES.PRETO_100};
+
+  width: 100vw;
+  height: 100vh;
 }
 
 main{
