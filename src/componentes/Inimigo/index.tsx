@@ -1,11 +1,10 @@
-import { Caixa } from "../Jogador/estilo"
-import { Inimigo, InimigoProps } from "../../sistema/interfaces/interfaces"
+import { Caixa } from "../../cenas/Jogador/estilo"
+import { Inimigo } from "../../sistema/interfaces/interfaces"
 import { useSistema } from "../../sistema/mundo"
 
 import { useState, useEffect } from "react"
 
 function InimigoFicha(){
-    const {Teste}= useSistema()
     const [nome,setNome]=useState<string>('criatura')
     const [mestre,setMestre]=useState<string>('do mal')
     const [mecanica,setMecanica]=useState<number>(5)

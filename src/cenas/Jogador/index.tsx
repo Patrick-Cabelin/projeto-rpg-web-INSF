@@ -3,7 +3,7 @@ import {Caixa, InformacaoPersonagem, Atributos, Inventario} from './estilo'
 import {useState, useEffect} from 'react'
 import { useSistema } from '../../sistema/mundo'
 import { Icons } from '../../estilos/assests/Icons'
-import { Menu } from '../Menu'
+import { Menu } from '../../componentes/Menu'
 import tema from '../../estilos/tema'
 
 function JogadorFicha({estado}: {estado?: string}){

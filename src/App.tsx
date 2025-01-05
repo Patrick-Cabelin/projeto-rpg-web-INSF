@@ -1,14 +1,14 @@
 import { useSistema } from './sistema/mundo'
-import { CenaCombate } from './componentes/Cena'
+
 
 import { useState, useEffect } from 'react' 
-import { JogadorFicha } from './componentes/Jogador'
+import { Anotacao } from './cenas/Anotações'
 
 function App() {
  
 
   return (
-     <JogadorFicha/>
+     <Anotacao/>
   )
 }
 
