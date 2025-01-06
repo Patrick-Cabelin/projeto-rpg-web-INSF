@@ -1,14 +1,20 @@
-import { useSistema } from './sistema/mundo'
+import { Route, Switch } from 'wouter'
 
+import { JogadorFicha } from './cenas/Jogador'
+import { Mapa } from './cenas/Mapa'
+import { Anotacao } from './cenas/Anotacoes'
+import { EventoLocal } from './cenas/EventoLocal'
 
-import { useState, useEffect } from 'react' 
-import { Anotacao } from './cenas/Anotações'
+import {Ficha} from './componentes/Ficha'
 
 function App() {
- 
-
   return (
-     <Anotacao/>
+    <Switch>
+      <Route path={'/'} component={Ficha}/>
+      <Route path={'/mapa'} component={Mapa}/>
+      <Route path={'/anotacao'} component={Anotacao}/>
+      <Route path={'/eventolocal'} component={EventoLocal}/>
+    </Switch>
   )
 }
 

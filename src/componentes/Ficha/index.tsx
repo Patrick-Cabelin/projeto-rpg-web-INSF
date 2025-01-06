@@ -1,51 +1,63 @@
-import {useState, useEffect} from 'react'
+import {Criacao, Atributos} from './estilo'
 import { Personagem } from '../../sistema/interfaces/interfaces'
-import {useSistema} from '../../sistema/mundo'
-import {Form} from './estilo'
+
+
+import {useState, useEffect} from 'react'
 
 function Ficha(){
-  const {encontrarFicha} = useSistema()
+
   const pontosIniciais = 10
   const [pontos, setPontos]= useState(pontosIniciais)
-  const [mecanica,setMecanica]= useState(0)
-  const [sabedoria,setSabedoria]= useState(0)
-  const [energia,setEnergia]= useState(0)
+  const [forca,setForca]= useState(0)
+  const [agilidade,setAgilidade]= useState(0)
+  const [vigor,setVigor]= useState(0)
   const [nome,setNome]= useState('')
   const [vida, setVida]= useState(0)
+
+
+
+
 
   function informacaoDaFicha(evento:React.FormEvent){
     evento.preventDefault()
 
-    const vidaCalculada = mecanica + sabedoria + energia;
+    const vidaCalculada = forca + agilidade + vigor;
     setVida(vidaCalculada)
     
     if (pontos <= 0){
       const informacaoDoPersonagem:Personagem= {
         nome:nome,
-        mestre: '',
         vida: vidaCalculada,
         atributos:{
-          mecanica,
-          sabedoria,
-          energia
+          forca,
+          agilidade,
+          vigor
         }
       }
     
-      return encontrarFicha(informacaoDoPersonagem) 
     }
+
+    console.log(pontos,
+      forca,
+      agilidade,
+      vigor,
+      nome,
+      vida)
   }
 
   function modificarFicha(atributo:string){
+    
     if (pontos > 0 ){
       switch (atributo){
-        case 'mecanica' :
-          setMecanica(mecanica+1)
+        case 'forca' :
+          setForca(forca+1)
+          console.log(pontos,'atribu')
           break
-        case 'sabedoria':
-          setSabedoria(sabedoria+1)
+        case 'agilidade':
+          setAgilidade(agilidade+1)
           break
-        case 'energia':
-          setEnergia(energia+1)
+        case 'vigor':
+          setVigor(vigor+1)
           break
       }
 
@@ -54,93 +66,94 @@ function Ficha(){
   }
   
   return (
-    <Form onSubmit={informacaoDaFicha} >
-      <div>
-        <div>
-          <label>Nome do Personagem: </label>
-          <input
-            type="text"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-        </div>
+    <Criacao onSubmit={informacaoDaFicha}>
+          <div>
+            <h1><input type="text" placeholder='Sobrevivente' onChange={(e)=>{setNome(e.target.value)}}/></h1>
+            <span></span>
+          </div>
 
+        <Atributos>
+          <div>
+            <p>pontos para gastar: <span>{pontos}</span></p>
+
+            <div>
+              <label>Força: </label>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => modificarFicha('forca')}
+                >
+                  +
+                </button>
+                <span>{forca}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (forca > 0) {
+                     console.log('-')
+                    }
+                  }}
+                >
+                  -
+                </button>
+              </div>
+            </div>
+
+            <div>
+                <label>Agilidade: </label>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => modificarFicha('agilidade')}
+                >
+                  +
+                </button>
+                <span>{agilidade}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (agilidade > 0) {
+                      setForca(agilidade - 1)
+                      setPontos(pontos + 1)
+                    }
+                  }}
+                >
+                  -
+                </button>
+              </div>
+            </div>
+
+            <div>
+                <label>Vigor: </label>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => modificarFicha('vigor')}
+                >
+                  +
+                </button>
+                <span>{vigor}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (forca > 0) {
+                      setForca(forca - 1)
+                      setPontos(pontos + 1)
+                    }
+                  }}
+                >
+                  -
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </Atributos>
+        
         <div>
-          <label>Mecânica ({mecanica}): </label>
-          <button
-            type="button"
-            onClick={() => modificarFicha('mecanica')}
-          >
-            +
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (mecanica > 0) {
-                setMecanica(mecanica - 1)
-                setPontos(pontos + 1)
-              }
-            }}
-          >
-            -
-          </button>
+          <button><p>CRIAR FICHA</p></button>
         </div>
-        <div>
-          <label>Sabedoria ({sabedoria}): </label>
-          <button
-            type="button"
-            onClick={() => {
-              if (pontos > 0) {
-                setSabedoria(sabedoria + 1)
-                setPontos(pontos - 1)
-              }
-            }}
-          >
-            +
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (sabedoria > 0) {
-                setSabedoria(sabedoria - 1)
-                setPontos(pontos + 1)
-              }
-            }}
-          >
-            -
-          </button>
-        </div>
-        <div>
-          <label>Energia ({energia}): </label>
-          <button
-            type="button"
-            onClick={() => {
-              if (pontos > 0) {
-                setEnergia(energia + 1)
-                setPontos(pontos - 1)
-              }
-            }}
-          >
-            +
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              if (energia > 0) {
-                setEnergia(energia - 1)
-                setPontos(pontos + 1)
-              }
-            }}
-          >
-            -
-          </button>
-        </div>
-        <div>
-          <p>Pontos restantes: {pontos}</p>
-        </div>
-        <button type="submit">Criar Ficha</button>
-      </div>
-    </Form>
+    </Criacao>
   )
 
 }

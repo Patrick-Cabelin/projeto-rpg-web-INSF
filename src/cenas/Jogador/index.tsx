@@ -6,7 +6,7 @@ import { Icons } from '../../estilos/assests/Icons'
 import { Menu } from '../../componentes/Menu'
 import tema from '../../estilos/tema'
 
-function JogadorFicha({estado}: {estado?: string}){
+function JogadorFicha(){
   const {Vida, Voltar,Anotacao}= Icons()
 
     return (

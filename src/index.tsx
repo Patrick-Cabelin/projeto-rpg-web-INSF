@@ -11,7 +11,7 @@ import {App} from './App'
 import { Sistema } from './sistema/mundo'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+
     <Provider store={memoria}>
       <ThemeProvider theme={tema}>
         <GlobalStyles/>
@@ -20,5 +20,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           </Sistema>
       </ThemeProvider>
     </Provider>
-  </React.StrictMode>
+
 )

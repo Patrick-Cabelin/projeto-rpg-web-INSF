@@ -1,6 +1,7 @@
 interface FichaBasica {
   nome: string
   vida: number
+  inventario?: Item[]
   atributos: {
     forca: number
     agilidade: number
@@ -18,16 +19,12 @@ type Item= {
   acao?: () => void
 }
 interface Personagem extends FichaBasica{
-  inventario: Item[]
 }
+
 interface Inimigo extends FichaBasica{}
 
-interface SistemaContextoProps{
-  personagemFicha: Personagem | null
-  encontrarFicha:(ficha:Personagem)=>void
-}
+
 export type {
   Personagem, 
   Inimigo,
-  SistemaContextoProps
 }

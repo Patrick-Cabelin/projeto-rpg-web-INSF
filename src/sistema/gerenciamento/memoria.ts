@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-
+import personagemReducer from './mecanicas/personagem'
 const memoria = configureStore({
-  reducer: {}
+  reducer: {
+    personagem: personagemReducer
+  }
 });
 
 export type RootState = ReturnType<typeof memoria.getState>;
