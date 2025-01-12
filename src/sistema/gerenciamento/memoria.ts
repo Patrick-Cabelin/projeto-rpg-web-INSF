@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import personagemReducer from './mecanicas/personagem'
+
 const memoria = configureStore({
   reducer: {
     personagem: personagemReducer

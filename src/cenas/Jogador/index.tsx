@@ -1,30 +1,56 @@
 import {Caixa, InformacaoPersonagem, Atributos, Inventario} from './estilo'
 
 import {useState, useEffect} from 'react'
-import { useSistema } from '../../sistema/mundo'
+
 import { Icons } from '../../estilos/assests/Icons'
 import { Menu } from '../../componentes/Menu'
 import tema from '../../estilos/tema'
 
-function JogadorFicha(){
-  const {Vida, Voltar,Anotacao}= Icons()
+import { useDispatch, useSelector } from 'react-redux'
+import {pesquisarFicha} from '../../sistema/gerenciamento/mecanicas/personagem'
+import { RootState } from '../../sistema/gerenciamento/memoria'
 
+function JogadorFicha(){
+  const {Vida}= Icons()
+  const [nome, setNome] = useState<string>('')
+  const [forca, setForca] = useState<number>(0)
+  const [agilidade, setAgilidade] = useState<number>(0)
+  const [vigor, setVigor] = useState<number>(0)
+  const [vidaInicial, setVidaInicial] = useState<number>(0)
+  const [vidaAtual, setVidaAtual] = useState<number>(0)
+
+  const dispatch = useDispatch()
+  const Ficha= useSelector((estado:RootState)=> estado.personagem.haFicha)
+
+  
+  useEffect(()=>{
+    dispatch(pesquisarFicha())
+    setNome(Ficha.nome)
+    setForca(Ficha.atributos.forca)
+    setAgilidade(Ficha.atributos.agilidade)
+    setVigor(Ficha.atributos.vigor)
+    setVidaInicial(Ficha.vida)
+  },[])
+
+  useEffect(()=>{
+    setVidaAtual(Ficha.vida-1)
+  },[vidaAtual])
     return (
       <Caixa className='FichaPersonagem'>
         <InformacaoPersonagem>
           <div>
-            <h1>Avalone Carvalho</h1>
+            <h1>{nome}</h1>
             <div className='vidaPersonagem'>
-              <span>10/10</span>
+              <span>{vidaAtual}/{vidaInicial}</span>
               <Vida tamanho={40} cor={tema.CORES.VERMELHO }/>
             </div>
           </div>
         </InformacaoPersonagem>
         <Atributos>
           <div>
-            <p>Força: <span>8</span></p>
-            <p>Agilidade: <span>5</span></p>
-            <p>Vigor: <span>3</span></p>
+            <p>Força: <span>{forca}</span></p>
+            <p>Agilidade: <span>{agilidade}</span></p>
+            <p>Vigor: <span>{vigor}</span></p>
           </div>
           <Menu/>
         </Atributos>

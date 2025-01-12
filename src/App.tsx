@@ -4,13 +4,26 @@ import { JogadorFicha } from './cenas/Jogador'
 import { Mapa } from './cenas/Mapa'
 import { Anotacao } from './cenas/Anotacoes'
 import { EventoLocal } from './cenas/EventoLocal'
-
 import {Ficha} from './componentes/Ficha'
 
+import { pesquisarFicha } from './sistema/gerenciamento/mecanicas/personagem'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from './sistema/gerenciamento/memoria'
+import { useEffect, useState } from 'react'
+
 function App() {
+  const dispatch = useDispatch()
+  const existeFicha= useSelector((estado:RootState)=> estado.personagem.haFicha)
+
+  
+  useEffect(()=>{
+    dispatch(pesquisarFicha())
+  },[dispatch])
   return (
     <Switch>
-      <Route path={'/'} component={Ficha}/>
+      {
+        existeFicha?<Route path={'/'} component={JogadorFicha}/>:<Route path={'/'} component={Ficha}/>
+      }
       <Route path={'/mapa'} component={Mapa}/>
       <Route path={'/anotacao'} component={Anotacao}/>
       <Route path={'/eventolocal'} component={EventoLocal}/>

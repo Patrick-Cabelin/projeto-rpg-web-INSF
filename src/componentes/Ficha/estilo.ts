@@ -69,17 +69,18 @@ const Atributos= styled.div`
           margin: 2rem 0;
           span{
             font-weight: bold;
-            font-size: 3rem;
+            font-size: 3.5rem;
+            color: ${({theme:tema})=> tema.CORES.GRAFITE};
+
           }
         }
         div{
 
-            width: 30rem;
+            width: 40rem;
             font-size: 3.5rem;
             margin-top: 1.3rem;
 
             display: flex;
-            gap: 2rem;
             align-items: center;
             justify-content: flex-end;
             flex-direction: row;    
@@ -98,6 +99,10 @@ const Atributos= styled.div`
             
             span{
                 font-weight: bold;
+            }
+
+            >div{
+              gap: 2rem;
             }
         }
        

@@ -15,6 +15,10 @@ export default createGlobalStyle`
   height: 100vh;
 }
 
+body{
+  user-select: none;
+}
+
 main{
   display: flex;
 }

@@ -1,157 +1,80 @@
 import {Criacao, Atributos} from './estilo'
-import { Personagem } from '../../sistema/interfaces/interfaces'
 
+import { useSelector, useDispatch } from 'react-redux';
+import {  modificarAtributo, criarFichaPersonagem } from '../../sistema/gerenciamento/mecanicas/personagem';
+import { RootState } from '../../sistema/gerenciamento/memoria';
+import { useEffect, useState } from 'react';
+import { Personagem } from '../../sistema/interfaces/interfaces';
 
-import {useState, useEffect} from 'react'
 
 function Ficha(){
-
-  const pontosIniciais = 10
-  const [pontos, setPontos]= useState(pontosIniciais)
-  const [forca,setForca]= useState(0)
-  const [agilidade,setAgilidade]= useState(0)
-  const [vigor,setVigor]= useState(0)
-  const [nome,setNome]= useState('')
-  const [vida, setVida]= useState(0)
+  const dispatch = useDispatch()
+  const personagem = useSelector((state:RootState)=>state.personagem)
+  const [ficha,setFicha] = useState<Personagem>()
+  const [nome , setNome]= useState('')
 
 
-
-
-
-  function informacaoDaFicha(evento:React.FormEvent){
-    evento.preventDefault()
-
-    const vidaCalculada = forca + agilidade + vigor;
-    setVida(vidaCalculada)
-    
-    if (pontos <= 0){
-      const informacaoDoPersonagem:Personagem= {
-        nome:nome,
-        vida: vidaCalculada,
-        atributos:{
-          forca,
-          agilidade,
-          vigor
-        }
-      }
-    
-    }
-
-    console.log(pontos,
-      forca,
-      agilidade,
-      vigor,
+  function criandoFicha(){
+    const vida = personagem.atributos.forca + personagem.atributos.agilidade + personagem.atributos.vigor
+    setFicha({
       nome,
-      vida)
-  }
-
-  function modificarFicha(atributo:string){
-    
-    if (pontos > 0 ){
-      switch (atributo){
-        case 'forca' :
-          setForca(forca+1)
-          console.log(pontos,'atribu')
-          break
-        case 'agilidade':
-          setAgilidade(agilidade+1)
-          break
-        case 'vigor':
-          setVigor(vigor+1)
-          break
+      vida,
+      atributos:{
+        forca: personagem.atributos.forca,
+        agilidade: personagem.atributos.agilidade,
+        vigor: personagem.atributos.vigor
       }
-
-    }
+    })
+    
     
   }
-  
+
+  useEffect(()=>{
+    if (ficha) dispatch(criarFichaPersonagem(ficha))
+  },[ficha])
   return (
-    <Criacao onSubmit={informacaoDaFicha}>
+    <Criacao>
           <div>
-            <h1><input type="text" placeholder='Sobrevivente' onChange={(e)=>{setNome(e.target.value)}}/></h1>
-            <span></span>
+            <h1><input
+            type="text"  
+            placeholder='sobrevivente'
+            onChange={(e) => {setNome(e.target.value)} }/></h1>
           </div>
 
         <Atributos>
-          <div>
-            <p>pontos para gastar: <span>{pontos}</span></p>
+          <div> 
+              <p>Pontos para gastar: <span>{personagem.pontosIniciais}</span></p>
 
-            <div>
-              <label>Força: </label>
-              <div>
-                <button
-                  type="button"
-                  onClick={() => modificarFicha('forca')}
-                >
-                  +
-                </button>
-                <span>{forca}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (forca > 0) {
-                     console.log('-')
-                    }
-                  }}
-                >
-                  -
-                </button>
-              </div>
+              {['forca', 'agilidade', 'vigor'].map((atributo) => (
+                <div key={atributo}>
+                  <label>{atributo.toUpperCase()}: </label>
+
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => dispatch(modificarAtributo({ atributos: atributo as 'forca' | 'agilidade' | 'vigor', operacao: 'incrementar' }))}
+                    >
+                      +
+                    </button>
+                    <span>{personagem.atributos[atributo as keyof typeof personagem.atributos]}</span>
+                    <button
+                      type="button"
+                      onClick={() => dispatch(modificarAtributo({ atributos: atributo as 'forca' | 'agilidade' | 'vigor', operacao: 'decrementar' }))}
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-
-            <div>
-                <label>Agilidade: </label>
-              <div>
-                <button
-                  type="button"
-                  onClick={() => modificarFicha('agilidade')}
-                >
-                  +
-                </button>
-                <span>{agilidade}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (agilidade > 0) {
-                      setForca(agilidade - 1)
-                      setPontos(pontos + 1)
-                    }
-                  }}
-                >
-                  -
-                </button>
-              </div>
-            </div>
-
-            <div>
-                <label>Vigor: </label>
-              <div>
-                <button
-                  type="button"
-                  onClick={() => modificarFicha('vigor')}
-                >
-                  +
-                </button>
-                <span>{vigor}</span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (forca > 0) {
-                      setForca(forca - 1)
-                      setPontos(pontos + 1)
-                    }
-                  }}
-                >
-                  -
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </Atributos>
-        
+            </Atributos>
+            
         <div>
-          <button><p>CRIAR FICHA</p></button>
+          <button
+            onClick={()=>{
+                criandoFicha()
+              }
+            }><p>CRIAR FICHA</p></button>
         </div>
     </Criacao>
   )

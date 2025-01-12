@@ -19,6 +19,8 @@ type Item= {
   acao?: () => void
 }
 interface Personagem extends FichaBasica{
+  pontosIniciais: number 
+  haFicha?: string | null | object
 }
 
 interface Inimigo extends FichaBasica{}
