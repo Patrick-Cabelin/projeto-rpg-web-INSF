@@ -73,7 +73,7 @@ const Atributos= styled.div`
         }
     }
 
-    div:last-child{
+    >div:last-child{
         padding-right: 8.5rem;
     }
 `

@@ -33,7 +33,7 @@ function JogadorFicha(){
   },[])
 
   useEffect(()=>{
-    setVidaAtual(Ficha.vida-1)
+    setVidaAtual(Ficha.vida)
   },[vidaAtual])
     return (
       <Caixa className='FichaPersonagem'>

@@ -43,8 +43,8 @@ const Topo = styled.div`
     div{
         align-self: flex-start;
         
-        svg:last-child{
-            opacity: 0;
+        >div:last-child{
+                opacity: 0;
         }
     }
     

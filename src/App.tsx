@@ -6,10 +6,11 @@ import { Anotacao } from './cenas/Anotacoes'
 import { EventoLocal } from './cenas/EventoLocal'
 import {Ficha} from './componentes/Ficha'
 
+import { useEffect } from 'react'
 import { pesquisarFicha } from './sistema/gerenciamento/mecanicas/personagem'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './sistema/gerenciamento/memoria'
-import { useEffect, useState } from 'react'
+
 
 function App() {
   const dispatch = useDispatch()

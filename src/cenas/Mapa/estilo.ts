@@ -47,6 +47,8 @@ const Topo = styled.div`
 const Lugares = styled.div`
     display: flex;
     flex-direction: column;
+    padding-left: 2rem;
+    overflow: auto;
 
     div{
         p,li{
@@ -62,6 +64,13 @@ const Lugares = styled.div`
             width: 30rem;
             margin-left: 4.5rem;
             color: ${({theme:tema})=> tema.CORES.AZUL};
+            
+            &:hover{
+                text-decoration: underline;
+                cursor: pointer;
+                list-style: square;
+                color: ${({theme:tema})=> tema.CORES.VERMELHO};
+            }
         }
     }
 

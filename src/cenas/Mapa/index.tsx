@@ -1,8 +1,21 @@
-import { Menu } from "../../componentes/Menu"
 import { Caixa, Topo, Lugares } from "./estilo"
 
-function Mapa(){
 
+import { useState } from "react"
+import { Menu } from "../../componentes/Menu"
+import { LUGARES } from "../../sistema/locais"
+
+import {useDispatch, UseDispatch, useSelector, UseSelector} from 'react-redux'
+import {IniciarCombate} from '../../sistema/gerenciamento/mecanicas/mundo'
+import { RootState } from "../../sistema/gerenciamento/memoria"
+
+function Mapa(){
+    const [locais, setLocais] = useState<object>(LUGARES)
+    const dispacho = useDispatch()
+    const mundo = useSelector((state:RootState)=>state)
+    function click(){
+       console.log(dispacho(IniciarCombate()))
+    }
     return(
         <Caixa>
             <Topo>
@@ -10,10 +23,24 @@ function Mapa(){
                 <Menu/>
             </Topo>
             <Lugares>
-                <div>
-                    <p>Cantinho da Dona Maria</p>
-                    <li>Rua das Acácias, Qd 15, perto da praça São Vicente.</li>
-                </div>
+               
+                
+                {
+                    locais.locais.map( 
+                        (pontos)=>{
+                            return(
+                                <div>
+                                    <p>{pontos.nome}</p>
+                                    <li
+                                    onClick={()=>{
+                                        click()
+                                    }}
+                                    >{pontos.endereco}</li>
+                                </div>
+                            )
+                        }
+                    )
+                }
                 
             </Lugares>
         </Caixa>

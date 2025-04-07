@@ -5,6 +5,10 @@ const Navegar= styled.div`
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    
+    div{
+        cursor: pointer;
+    }
 
 `
 

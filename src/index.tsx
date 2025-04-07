@@ -8,16 +8,16 @@ import GlobalStyles from './estilos/global'
 import {ThemeProvider} from 'styled-components'
 import tema from './estilos/tema'
 import {App} from './App'
-import { Sistema } from './sistema/mundo'
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
     <Provider store={memoria}>
       <ThemeProvider theme={tema}>
         <GlobalStyles/>
-          <Sistema>
+          
             <App/>
-          </Sistema>
+          
       </ThemeProvider>
     </Provider>
 

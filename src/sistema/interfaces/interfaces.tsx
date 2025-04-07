@@ -6,6 +6,7 @@ interface FichaBasica {
     forca: number
     agilidade: number
     vigor: number
+    sorte?:number
   }
 }
 
@@ -27,6 +28,7 @@ interface Inimigo extends FichaBasica{}
 
 
 export type {
+  FichaBasica,
   Personagem, 
   Inimigo,
 }

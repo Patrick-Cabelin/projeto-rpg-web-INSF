@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import personagemReducer from './mecanicas/personagem'
+import mundoReducer from './mecanicas/mundo'
 
 const memoria = configureStore({
   reducer: {
-    personagem: personagemReducer
+    mundo: mundoReducer,
+    personagem: personagemReducer,
   }
 });
 
