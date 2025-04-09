@@ -7,8 +7,9 @@ import { Menu } from '../../componentes/Menu'
 import tema from '../../estilos/tema'
 
 import { useDispatch, useSelector } from 'react-redux'
-import {pesquisarFicha} from '../../sistema/gerenciamento/mecanicas/personagem'
+import { pesquisarFicha} from '../../sistema/gerenciamento/mecanicas/personagem'
 import { RootState } from '../../sistema/gerenciamento/memoria'
+import { listagem } from '../../sistema/gerenciamento/mecanicas/inventario'
 
 function JogadorFicha(){
   const {Vida}= Icons()
@@ -20,8 +21,13 @@ function JogadorFicha(){
   const [vidaAtual, setVidaAtual] = useState<number>(0)
 
   const dispatch = useDispatch()
-  const Ficha= useSelector((estado:RootState)=> estado.personagem.haFicha)
+  const Ficha= useSelector((estado:RootState)=> estado.personagem.haFicha!)
 
+  function inven (){
+    
+    dispatch(listagem( Ficha.inventario))
+    console.log('qwf')
+  }
   
   useEffect(()=>{
     dispatch(pesquisarFicha())
@@ -55,7 +61,7 @@ function JogadorFicha(){
           <Menu/>
         </Atributos>
 
-        <Inventario>
+        <Inventario onClick={inven}>
           <h2>Minhas coisas</h2>
           <ul>
             <li><span>{1}</span> faca</li>

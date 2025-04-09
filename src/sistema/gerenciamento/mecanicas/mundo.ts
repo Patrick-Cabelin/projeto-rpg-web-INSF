@@ -2,11 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Inimigo } from '../../interfaces/interfaces'
 
 
-type Mundo= {
-    PorcentagemInimigos: number
+interface Mundo{
+    porcentagemInimigos: number,
+    emBatalha: boolean
 }
+
 const estadoInialGlobal: Mundo={
-    PorcentagemInimigos: 1
+    porcentagemInimigos: 1,
+    emBatalha: false
 }
 
 const MundoSlice=createSlice({
@@ -18,12 +21,11 @@ const MundoSlice=createSlice({
             acao:PayloadAction<string>
         ){
         
-            let Porcentagem = Math.round(estado.PorcentagemInimigos*Math.random()*100)
-            const {sorte}= JSON.parse(localStorage.getItem('@FichaJogador')).atributos
+            let Porcentagem = Math.round(estado.porcentagemInimigos*Math.random()*100)
+            const {sorte}= JSON.parse(localStorage.getItem('@FichaJogador')!).atributos
            
-            if (Porcentagem > sorte ){
-                console.log(Porcentagem)
-            }
+            if (Porcentagem > sorte ) estado.emBatalha = true
+            console.log(estado.emBatalha)
         }
     }
 

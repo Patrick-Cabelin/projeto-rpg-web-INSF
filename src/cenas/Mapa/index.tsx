@@ -3,7 +3,7 @@ import { Caixa, Topo, Lugares } from "./estilo"
 
 import { useState } from "react"
 import { Menu } from "../../componentes/Menu"
-import { LUGARES } from "../../sistema/locais"
+import { LUGARES } from "../../sistema/utilidades/locais"
 
 import {useDispatch, UseDispatch, useSelector, UseSelector} from 'react-redux'
 import {IniciarCombate} from '../../sistema/gerenciamento/mecanicas/mundo'
@@ -14,7 +14,7 @@ function Mapa(){
     const dispacho = useDispatch()
     const mundo = useSelector((state:RootState)=>state)
     function click(){
-       console.log(dispacho(IniciarCombate()))
+      dispacho(IniciarCombate())
     }
     return(
         <Caixa>

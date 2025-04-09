@@ -21,6 +21,7 @@ const personagemSlice= createSlice({
         nomeSobrevivente(estado, acao:PayloadAction<string> ){
             estado.nome= acao.payload
         },
+
         modificarAtributo(
             estado,
             acao: PayloadAction<{atributos: 'forca' | 'agilidade' | 'vigor'; operacao: 'incrementar' | 'decrementar' }>
@@ -59,6 +60,20 @@ const personagemSlice= createSlice({
         ){
            localStorage.setItem('@FichaJogador', JSON.stringify(acao.payload))
         },
+
+        pesquisarFicha(
+            estado,
+            acao: PayloadAction<void>
+        ){
+         
+            const haFicha= localStorage.getItem('@FichaJogador')
+            if(!haFicha) {
+                estado.haFicha = null
+            }else{
+                estado.haFicha= JSON.parse(haFicha)
+            }
+        },
+
         calcularVida(
             estado,
             acao: PayloadAction<{atributos: 'forca' | 'agilidade' | 'vigor'; operacao: 'cura'| 'dano' }>
@@ -66,22 +81,16 @@ const personagemSlice= createSlice({
             const { atributos }= acao.payload
             // if
         },
-        pesquisarFicha(
-            estado,
-            acao: PayloadAction<void>
-        ){
-            const haFicha= localStorage.getItem('@FichaJogador')
-
-            if(!haFicha) {
-                estado.haFicha = null
-            }else{
-                estado.haFicha= JSON.parse(haFicha)
-            }
-        }
     }
 })
 
 
 
-export const { nomeSobrevivente, modificarAtributo, criarFichaPersonagem, calcularVida ,pesquisarFicha}= personagemSlice.actions
+export const { 
+    nomeSobrevivente,
+    modificarAtributo, 
+    criarFichaPersonagem, 
+    calcularVida,
+    pesquisarFicha}
+    =personagemSlice.actions
 export default personagemSlice.reducer

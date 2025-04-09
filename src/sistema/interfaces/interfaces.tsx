@@ -10,12 +10,12 @@ interface FichaBasica {
   }
 }
 
-type Item= {
+interface Item{
   id: number
   nome: string
   quantidade: number
-  dano?: number
-  cura?: number
+  tipo?: 'dano' | 'cura'
+  valor?:number
   eConsumivel?: boolean
   acao?: () => void
 }
@@ -31,4 +31,5 @@ export type {
   FichaBasica,
   Personagem, 
   Inimigo,
+  Item
 }

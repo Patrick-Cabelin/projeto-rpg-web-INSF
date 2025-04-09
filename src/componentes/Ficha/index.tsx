@@ -34,8 +34,31 @@ function Ficha(){
         forca: personagem.atributos.forca,
         agilidade: personagem.atributos.agilidade,
         vigor: personagem.atributos.vigor,
-        sorte: Sorte()
-      }
+        sorte: Sorte(),
+      },
+      inventario: [
+        {
+          id: 1,
+          nome: "Lata de ervilhas Pequena",
+          quantidade: 3,
+          tipo: "cura",
+          valor: 3,
+          eConsumivel: true,
+          acao: () => {
+              console.log("Você recupera 20 pontos de vida!");
+          }
+      },
+      {
+          id: 2,
+          nome: "Pé de Cabra Enferrujado",
+          quantidade: 1,
+          tipo: "dano",
+          valor: 20,
+          eConsumivel: false,
+          acao: () => {
+              console.log("Você acerta com força, causando dano contundente.");}
+          },
+      ]
     })
 
     
