@@ -22,13 +22,30 @@ function JogadorFicha(){
 
   const dispatch = useDispatch()
   const Ficha= useSelector((estado:RootState)=> estado.personagem.haFicha!)
+  let Itens= useSelector((estado: RootState)=> estado.inventario.itens)
 
-  function inven (){
-    
-    dispatch(listagem( Ficha.inventario))
-    console.log('qwf')
+  
+  function INVENTARIO (acao){
+    switch (acao){
+      case "BUSCA":
+        dispatch(listagem())
+        
+      default:
+        break
+      }
   }
   
+  let itensListados =  ()=>{
+      return (Itens?.map(item=>{
+        return(
+          <li>
+            <strong>{item.quantidade}</strong> <span>{item.nome}</span>
+          </li>
+        )
+      })
+    )
+  }
+
   useEffect(()=>{
     dispatch(pesquisarFicha())
     setNome(Ficha.nome)
@@ -36,7 +53,8 @@ function JogadorFicha(){
     setAgilidade(Ficha.atributos.agilidade)
     setVigor(Ficha.atributos.vigor)
     setVidaInicial(Ficha.vida)
-  },[])
+    INVENTARIO('BUSCA')
+  },[dispatch])
 
   useEffect(()=>{
     setVidaAtual(Ficha.vida)
@@ -61,12 +79,10 @@ function JogadorFicha(){
           <Menu/>
         </Atributos>
 
-        <Inventario onClick={inven}>
+        <Inventario onClick={(evento)=>{ INVENTARIO}}>
           <h2>Minhas coisas</h2>
           <ul>
-            <li><span>{1}</span> faca</li>
-            <li><span>{3}</span> lata de comida</li>
-            <li><span>{4}</span> balas</li>
+            {itensListados()}
           </ul>
         </Inventario>
       </Caixa>

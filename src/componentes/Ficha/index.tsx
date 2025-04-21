@@ -19,13 +19,15 @@ function Ficha(){
     const dados:number[]=[]
 
     const Sorte = ()=>{
-      for (let contador = 0; contador < 3; contador++) {
-        let dadoLancado= Math.round(Math.random()*10)
-        dados.push(dadoLancado)
-        
-      }
-      let dadoMedio= (dados[0]+dados[1]+dados[2])/3
-      return Math.round((1/dadoMedio)*100)
+
+        for (let contador = 0; contador < 3; contador++) {          
+          let dadoLancado= Math.round(Math.random()*10)
+          dados.push(dadoLancado)
+          
+        }
+        let dadoMedio= (dados[0]+dados[1]+dados[2])/3
+              
+        return Math.round((1/dadoMedio)*100)
     }
     setFicha({
       nome,
@@ -59,10 +61,7 @@ function Ficha(){
               console.log("Você acerta com força, causando dano contundente.");}
           },
       ]
-    })
-
-    
-    
+    })    
 }
 
   useEffect(()=>{

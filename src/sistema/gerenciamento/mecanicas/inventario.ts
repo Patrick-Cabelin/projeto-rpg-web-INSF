@@ -18,8 +18,9 @@ const inventarioSlice=createSlice({
             estado,
             
         ){
-            // estado.Itens.map((item)=>{ console.log(item)})
-            console.log(estado.itens)
+            const itensListados = JSON.parse(localStorage.getItem('@FichaJogador')||'').inventario || []
+            estado.itens = itensListados
+           
         }
     }
 })

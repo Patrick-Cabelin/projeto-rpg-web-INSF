@@ -24,7 +24,9 @@ interface Personagem extends FichaBasica{
   haFicha?: string | null | object
 }
 
-interface Inimigo extends FichaBasica{}
+interface Inimigo extends FichaBasica{
+  presente:boolean
+  fichaInimigo: object | null}
 
 
 export type {

@@ -5,32 +5,35 @@ import { Inimigo } from '../../interfaces/interfaces'
 interface Mundo{
     porcentagemInimigos: number,
     emBatalha: boolean
+    dificuldade: number
 }
 
 const estadoInialGlobal: Mundo={
     porcentagemInimigos: 1,
-    emBatalha: false
+    emBatalha: false,
+    dificuldade: 6
 }
 
 const MundoSlice=createSlice({
     name:'Mundo',
     initialState: estadoInialGlobal,
     reducers:{
-        IniciarCombate(
-            estado,
-            acao:PayloadAction<string>
+        emCombate(
+            estado
         ){
-        
-            let Porcentagem = Math.round(estado.porcentagemInimigos*Math.random()*100)
-            const {sorte}= JSON.parse(localStorage.getItem('@FichaJogador')!).atributos
-           
-            if (Porcentagem > sorte ) estado.emBatalha = true
-            console.log(estado.emBatalha)
+            console.log('combate')
+            estado.emBatalha= true
+        },
+        foraDeCombate(
+            estado
+        ){
+            console.log('fora')
+            estado.emBatalha= false
         }
     }
 
 })
 
 
-export const {IniciarCombate} = MundoSlice.actions
+export const {emCombate,foraDeCombate} = MundoSlice.actions
 export default MundoSlice.reducer
