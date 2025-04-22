@@ -15,6 +15,7 @@ function Combate(){
   const {Vida}= Icons()
   const [vidaAtual, setVidaAtual] = useState<number>(0)
   const [vidaAtualInimigo, setVidaAtualInimigo] = useState<number>(0)
+  const [vidaInimigo, setVidaInimigo] = useState<number>(0)
 
   const dispatch = useDispatch()
   const Ficha= useSelector((estado:RootState)=> estado.personagem.haFicha!)
@@ -73,8 +74,9 @@ function Combate(){
     let testeInimigo= TesteDefesa()
     if(resultado > testeInimigo){
      let resultadoVigor=  dispatch(testeVigor(resultado)).payload
-      setVidaAtualInimigo(Math.abs(resultadoVigor - inimigo.vida))
-      dispatch(modificarFicha({tipo: 'dano', valor: 3}))
+      setVidaAtualInimigo(prev => Math.max(0, prev - resultadoVigor))
+      dispatch(modificarFicha({tipo: 'dano', valor: resultadoVigor}))
+      dispatch(pesquisarFichaInimigo())
     }
 
   }
@@ -119,15 +121,16 @@ function Combate(){
   }
 
   useEffect(()=>{
-    INVENTARIO('busca')
+    dispatch(listagem())
     CriandoInimigo()
+    setVidaInimigo(inimigo?.vida)
     dispatch(pesquisarFicha())
-    setVidaAtualInimigo(inimigo.vida)
   },[dispatch])
 
   useEffect(()=>{
-    
-  },[vidaAtualInimigo])
+    if(inimigo)setVidaAtualInimigo(inimigo?.vida)
+      
+  },[inimigo])
   
     return (
       <Caixa className='quadroDeCombate'>
@@ -159,7 +162,7 @@ function Combate(){
           <div>
           <p>{Inimigo?.nome}</p>
           <div className='vidaPersonagem'>
-              <span><strong>{vidaAtualInimigo}</strong>/{inimigo?.vida}</span>
+              <span><strong>{vidaAtualInimigo}</strong>/{vidaInimigo}</span>
               <Vida tamanho={50} cor={tema.CORES.VERMELHO }/>
           </div>
           </div>

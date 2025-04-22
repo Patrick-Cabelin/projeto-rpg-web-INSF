@@ -68,18 +68,26 @@ const InimigoSlice=createSlice({
                 );
                 const sucessos = dados.filter(dado => dado > dificuldade).length;
                 const reducao = sucessos % 3;
-                const dano = acao.payload - reducao;
+                const dano = Math.max(0, acao.payload - reducao);
                 if (estado.vida <0)return
                 estado.vida -= dano;
-            }
-        },
-        modificar(){},
-        modificarFicha(estado, acao: PayloadAction<{ tipo: 'dano' | 'cura'; valor: number }>) {
-            // if (!estado.Inimigos) return;
-            console.log(acao, estado)
-            // const { tipo, valor } = acao.payload;
-            // const inimigo = estado.Inimigos;
+            },
 
+        modificarFicha(estado, acao: PayloadAction<{ tipo: 'dano' | 'cura'; valor: number }>) {
+            console.log(acao.payload, estado)
+            const { tipo, valor } = acao.payload;
+            
+
+            switch(tipo){
+                case 'dano':
+                    if(estado.fichaInimigo) {
+                        estado.fichaInimigo.vida = Math.max(0, estado.fichaInimigo.vida - valor);
+                    }
+                    if (estado.fichaInimigo.vida <0) return
+                    localStorage.setItem('@inimigo', JSON.stringify(estado.fichaInimigo))
+                break
+            }
+            
             // if (tipo === 'dano') {
             // inimigo.vida = Math.max(0, inimigo.vida - valor);
             // } else if (tipo === 'cura') {
@@ -88,9 +96,9 @@ const InimigoSlice=createSlice({
             // }
 
             // // Atualiza o localStorage também
-            // localStorage.setItem('@inimigo', JSON.stringify(inimigo));
+            localStorage.setItem('@inimigo', JSON.stringify(estado.fichaInimigo));
         },
-    
+    },
 })
       
 export default InimigoSlice.reducer
