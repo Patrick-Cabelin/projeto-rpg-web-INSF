@@ -14,7 +14,7 @@ interface Item{
   id: number
   nome: string
   quantidade: number
-  tipo?: 'dano' | 'cura'
+  tipo?: 'dano' | 'cura' | string
   valor?:number
   eConsumivel?: boolean
   acao?: () => void
@@ -25,8 +25,9 @@ interface Personagem extends FichaBasica{
 }
 
 interface Inimigo extends FichaBasica{
-  presente:boolean
-  fichaInimigo: FichaBasica }
+  presente?:boolean
+  fichaInimigo?: FichaBasica
+ }
 
 
 export type {

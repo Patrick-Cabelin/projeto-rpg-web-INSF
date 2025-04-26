@@ -33,7 +33,7 @@ const InimigoSlice=createSlice({
         ){
             const fichaInimigo= localStorage.getItem('@inimigo')
             if(!fichaInimigo) {
-                estado.fichaInimigo = null
+                estado.fichaInimigo = estadoInicial
             }else{
                 estado.fichaInimigo= JSON.parse(fichaInimigo)
             }
@@ -48,7 +48,7 @@ const InimigoSlice=createSlice({
                     if(estado.fichaInimigo) {
                         estado.fichaInimigo.vida = Math.max(0, estado.fichaInimigo.vida - valor);
                     } 
-                    if (estado.fichaInimigo.vida <0) return
+                    if (estado.fichaInimigo!.vida <0) return
                 break
             }
             

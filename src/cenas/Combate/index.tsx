@@ -28,6 +28,7 @@ function Combate(){
   let Mundo= useSelector((estado: RootState)=> estado.mundo.dificuldade)
   let inimigo= useSelector((estado: RootState)=> estado.inimigo.fichaInimigo)
 
+  
   const Inimigo = {
     nome: "Androide Corrompido",
     vida: 65,
@@ -80,9 +81,9 @@ function Combate(){
     if(jogadaPJ) return
     let ficha
     let resultado = Testes(ficha=Ficha, 'forca')
-    let testeInimigo= Testes(ficha=inimigo, 'agilidade')
+    let testeInimigo= Testes(ficha=inimigo!, 'agilidade')
     if(resultado > testeInimigo){
-       setResultadoVigorInimigo(Testes(ficha=inimigo, 'vigor'))
+       setResultadoVigorInimigo(Testes(ficha=inimigo!, 'vigor'))
       
      }
     setJogadaPj(true)
@@ -112,7 +113,7 @@ function Combate(){
 function AcaoInimigo(){
   if(jogadaPJ) return
     let ficha
-    let resultado = Testes(ficha=inimigo, 'forca')
+    let resultado = Testes(ficha=inimigo!, 'forca')
     let testePJ= Testes(ficha=Ficha, 'agilidade')
     if(resultado > testePJ){
       setResultadoVigorPJ(Testes(ficha=Ficha, 'vigor'))
@@ -141,7 +142,7 @@ function AcaoInimigo(){
     dispatch(listagem())
     CriandoInimigo()
     dispatch(pesquisarFicha())
-    setVidaInimigo(inimigo?.vida)
+    setVidaInimigo(inimigo?.vida!)
     setVidaPJ(Ficha?.vida)
     setJogadaPj(false)
   },[])
@@ -149,7 +150,7 @@ function AcaoInimigo(){
   useEffect(()=>{
     if(inimigo)setVidaAtualInimigo(inimigo.vida)
     
-      setVidaAtualPJ(Ficha.vida)
+      setVidaAtualPJ(Ficha?.vida)
   },[inimigo,Ficha])
   
     return (
