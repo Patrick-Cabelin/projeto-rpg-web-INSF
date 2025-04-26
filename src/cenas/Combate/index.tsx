@@ -6,17 +6,22 @@ import { Icons } from '../../estilos/assests/Icons'
 import tema from '../../estilos/tema'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { pesquisarFicha} from '../../sistema/gerenciamento/mecanicas/personagem'
+import { modificarFicha, pesquisarFicha} from '../../sistema/gerenciamento/mecanicas/personagem'
 import { RootState } from '../../sistema/gerenciamento/memoria'
 import { listagem } from '../../sistema/gerenciamento/mecanicas/inventario'
-import { criarInimigo, modificarFicha, pesquisarFichaInimigo, testeVigor } from '../../sistema/gerenciamento/mecanicas/inimigos'
+import { criarInimigo, modificarFichaInimigo, pesquisarFichaInimigo } from '../../sistema/gerenciamento/mecanicas/inimigos'
+import { FichaBasica } from '../../sistema/interfaces/interfaces'
+
 
 function Combate(){
   const {Vida}= Icons()
-  const [vidaAtual, setVidaAtual] = useState<number>(0)
+  const [vidaPJ, setVidaPJ] = useState<number>(0)
+  const [vidaAtualPJ, setVidaAtualPJ] = useState<number>(0)
   const [vidaAtualInimigo, setVidaAtualInimigo] = useState<number>(0)
   const [vidaInimigo, setVidaInimigo] = useState<number>(0)
-
+  const [jogadaPJ, setJogadaPj] = useState<boolean>(false)
+  const [resultadoVigorPJ,setResultadoVigorPJ]= useState<number>(0)
+  const [resultadoVigorInimigo,setResultadoVigorInimigo]= useState<number>(0)
   const dispatch = useDispatch()
   const Ficha= useSelector((estado:RootState)=> estado.personagem.haFicha!)
   let Itens= useSelector((estado: RootState)=> estado.inventario.itens)
@@ -42,45 +47,79 @@ function Combate(){
       }
     ]
   }
-  
+
+  let itensListados= ()=>{
+    return (Itens?.map((item,index)=>{
+    return(
+      <li key={index} onClick={()=>{INVENTARIO(String(item.tipo))}}>
+        <strong>{item.quantidade}</strong> <span>{item.nome}</span>
+      </li>
+    )
+  })
+    )
+  }
+
+  let itensInimigo= ()=>{
+    return (Inimigo.inventario?.map((item, index)=>{
+      return(
+        <li key={index} onClick={()=>{INVENTARIO(item.tipo)}}>
+          <strong>{item.quantidade}</strong> <span>{item.nome}</span>
+        </li>
+      )
+    })
+    )
+  }
+
   function CriandoInimigo(){
     dispatch(criarInimigo(Inimigo))
     dispatch(pesquisarFichaInimigo())
     
   }
-  
-  function TesteAtaque(){
-    const i = Ficha.atributos.forca
-    let dadosJogados= []
-    for (let index = i; index > 0; index--) {
-      let dadoLancado= Math.ceil(Math.random()*10)
-      let resultado = dadoLancado>Mundo? dadosJogados.push(dadoLancado):0
-    }
-    return dadosJogados.length
-  }
-
-  function TesteDefesa(){
-    const i = Ficha.atributos.agilidade
-    let dadosJogados= []
-    for (let index = i; index > 0; index--) {
-      let dadoLancado= Math.ceil(Math.random()*10)
-      let resultado = dadoLancado>Mundo? dadosJogados.push(dadoLancado):0
-    }
-    return dadosJogados.length
-  }
 
   function Atacando(){
-    let resultado = TesteAtaque()
-    let testeInimigo= TesteDefesa()
+    if(jogadaPJ) return
+    let ficha
+    let resultado = Testes(ficha=Ficha, 'forca')
+    let testeInimigo= Testes(ficha=inimigo, 'agilidade')
     if(resultado > testeInimigo){
-     let resultadoVigor=  dispatch(testeVigor(resultado)).payload
-      setVidaAtualInimigo(prev => Math.max(0, prev - resultadoVigor))
-      dispatch(modificarFicha({tipo: 'dano', valor: resultadoVigor}))
-      dispatch(pesquisarFichaInimigo())
-    }
+       setResultadoVigorInimigo(Testes(ficha=inimigo, 'vigor'))
+      
+     }
+    setJogadaPj(true)
+    setTimeout(()=>{
+      dispatch(modificarFichaInimigo({tipo:'dano', valor:resultadoVigorInimigo}))
+      AcaoInimigo()
+    },1000)
 
+    setTimeout(()=>{
+      setJogadaPj(false)
+    },2000)
+  
   }
 
+  function Testes(ficha: FichaBasica, atributo: 'forca' | 'agilidade' | 'vigor'): number {
+    let dadosJogados: number[] = []
+    let valor = ficha.atributos[atributo]
+    for (let i = 0; i < valor; i++) {
+      let dadoLancado = Math.ceil(Math.random() * 10)
+      if (dadoLancado > Mundo) {
+        dadosJogados.push(dadoLancado)
+      }
+    }   
+    return dadosJogados.length;
+  }
+
+function AcaoInimigo(){
+  if(jogadaPJ) return
+    let ficha
+    let resultado = Testes(ficha=inimigo, 'forca')
+    let testePJ= Testes(ficha=Ficha, 'agilidade')
+    if(resultado > testePJ){
+      setResultadoVigorPJ(Testes(ficha=Ficha, 'vigor'))
+    }
+    let a = dispatch(modificarFicha({tipo:'dano', valor:resultadoVigorPJ}))
+  }
+  
   function INVENTARIO (acao: string){
     const tipoDaAcao= acao
     switch (tipoDaAcao){
@@ -97,40 +136,21 @@ function Combate(){
         break
       }
   }
-  
-  let itensListados =  ()=>{
-      return (Itens?.map(item=>{
-        return(
-          <li onClick={()=>{INVENTARIO(String(item.tipo))}}>
-            <strong>{item.quantidade}</strong> <span>{item.nome}</span>
-          </li>
-        )
-      })
-    )
-  }
-
-  let itensInimigo =  ()=>{
-      return (Inimigo.inventario?.map(item=>{
-        return(
-          <li onClick={()=>{INVENTARIO(item.tipo)}}>
-            <strong>{item.quantidade}</strong> <span>{item.nome}</span>
-          </li>
-        )
-      })
-    )
-  }
 
   useEffect(()=>{
     dispatch(listagem())
     CriandoInimigo()
-    setVidaInimigo(inimigo?.vida)
     dispatch(pesquisarFicha())
-  },[dispatch])
-
+    setVidaInimigo(inimigo?.vida)
+    setVidaPJ(Ficha?.vida)
+    setJogadaPj(false)
+  },[])
+  
   useEffect(()=>{
-    if(inimigo)setVidaAtualInimigo(inimigo?.vida)
-      
-  },[inimigo])
+    if(inimigo)setVidaAtualInimigo(inimigo.vida)
+    
+      setVidaAtualPJ(Ficha.vida)
+  },[inimigo,Ficha])
   
     return (
       <Caixa className='quadroDeCombate'>
@@ -139,7 +159,7 @@ function Combate(){
                 <div>
                         <p>{Ficha?.nome}</p>
                     <div className='vidaPersonagem'>
-                        <span><strong>{Ficha?.vida}</strong>/{Ficha?.vida}</span>
+                        <span><strong>{vidaAtualPJ}</strong>/{vidaPJ}</span>
                         <Vida tamanho={50} cor={tema.CORES.VERMELHO }/>
                     </div>
                 </div>
@@ -162,7 +182,7 @@ function Combate(){
           <div>
           <p>{Inimigo?.nome}</p>
           <div className='vidaPersonagem'>
-              <span><strong>{vidaAtualInimigo}</strong>/{vidaInimigo}</span>
+              <span><strong>{vidaAtualInimigo}</strong>/{ vidaInimigo}</span>
               <Vida tamanho={50} cor={tema.CORES.VERMELHO }/>
           </div>
           </div>
@@ -185,7 +205,8 @@ function Combate(){
       </div>
       </Caixa>
     )
-  } 
+} 
+
 
 export {
   Combate

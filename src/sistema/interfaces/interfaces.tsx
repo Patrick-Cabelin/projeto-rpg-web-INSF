@@ -21,12 +21,12 @@ interface Item{
 }
 interface Personagem extends FichaBasica{
   pontosIniciais: number 
-  haFicha?: string | null | object
+  haFicha?: FichaBasica
 }
 
 interface Inimigo extends FichaBasica{
   presente:boolean
-  fichaInimigo: object | null}
+  fichaInimigo: FichaBasica }
 
 
 export type {

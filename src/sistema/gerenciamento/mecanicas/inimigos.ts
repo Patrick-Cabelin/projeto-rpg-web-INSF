@@ -1,10 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Inimigo } from "../../interfaces/interfaces";  
+import { Inimigo, FichaBasica} from "../../interfaces/interfaces";  
+
 
 const dificuldade = 6
-interface Inimigos{
-    inimigo: Inimigo[]
-}
 
 const estadoInicial: Inimigo={
     nome: '',
@@ -15,7 +13,7 @@ const estadoInicial: Inimigo={
         agilidade: 3,
         forca: 4,
     },
-    fichaInimigo:{}
+    fichaInimigo: <FichaBasica>{}
 }
 
 const InimigoSlice=createSlice({
@@ -41,50 +39,16 @@ const InimigoSlice=createSlice({
             }
         },
 
-        testeAtaque(){
-            const i = estadoInicial.atributos.forca
-            let dadosJogados= []
-            for (let index = i; index > 0; index--) {
-              let dadoLancado= Math.ceil(Math.random()*10)
-              let resultado = dadoLancado>dificuldade ? dadosJogados.push(dadoLancado):0
-            }
-             dadosJogados.length
-        },
-
-        testeDefesa(){
-            const i = estadoInicial.atributos.agilidade
-            let dadosJogados= []
-            for (let index = i; index > 0; index--) {
-              let dadoLancado= Math.ceil(Math.random()*10)
-              let resultado = dadoLancado>dificuldade ? dadosJogados.push(dadoLancado):0
-            }
-             dadosJogados.length
-        },  
-
-        testeVigor(estado, 
-        acao:PayloadAction<number>){
-            const dados = Array.from({ length: estado.atributos.vigor }, () =>
-                Math.ceil(Math.random() * 10)
-                );
-                const sucessos = dados.filter(dado => dado > dificuldade).length;
-                const reducao = sucessos % 3;
-                const dano = Math.max(0, acao.payload - reducao);
-                if (estado.vida <0)return
-                estado.vida -= dano;
-            },
-
-        modificarFicha(estado, acao: PayloadAction<{ tipo: 'dano' | 'cura'; valor: number }>) {
-            console.log(acao.payload, estado)
+        modificarFichaInimigo(estado, acao: PayloadAction<{ tipo: 'dano' | 'cura'; valor: number }>) {
             const { tipo, valor } = acao.payload;
             
-
             switch(tipo){
                 case 'dano':
+                    console.log(tipo,valor)
                     if(estado.fichaInimigo) {
                         estado.fichaInimigo.vida = Math.max(0, estado.fichaInimigo.vida - valor);
-                    }
+                    } 
                     if (estado.fichaInimigo.vida <0) return
-                    localStorage.setItem('@inimigo', JSON.stringify(estado.fichaInimigo))
                 break
             }
             
@@ -102,4 +66,4 @@ const InimigoSlice=createSlice({
 })
       
 export default InimigoSlice.reducer
-export const {testeAtaque,testeDefesa, testeVigor, pesquisarFichaInimigo, criarInimigo, modificarFicha} = InimigoSlice.actions
+export const { pesquisarFichaInimigo, criarInimigo, modificarFichaInimigo} = InimigoSlice.actions

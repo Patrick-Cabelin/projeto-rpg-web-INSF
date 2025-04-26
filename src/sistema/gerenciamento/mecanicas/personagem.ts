@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Personagem } from '../../interfaces/interfaces'
+import { FichaBasica, Personagem } from '../../interfaces/interfaces'
 
 
 const estadoInicial: Personagem = {
@@ -68,19 +68,35 @@ const personagemSlice= createSlice({
          
             const haFicha= localStorage.getItem('@FichaJogador')
             if(!haFicha) {
-                estado.haFicha = null
+                estado.haFicha = estadoInicial
             }else{
                 estado.haFicha= JSON.parse(haFicha)
             }
         },
 
-        calcularVida(
-            estado,
-            acao: PayloadAction<{atributos: 'forca' | 'agilidade' | 'vigor'; operacao: 'cura'| 'dano' }>
-        ){
-            const { atributos }= acao.payload
-            // if
-        },
+        modificarFicha(estado, acao: PayloadAction<{ tipo: 'dano' | 'cura'; valor: number }>) {
+            const { tipo, valor } = acao.payload
+          
+            if (!estado.haFicha) return
+            
+            console.log('ficha', valor)
+
+            const ficha = estado.haFicha as FichaBasica
+
+            switch (tipo) {
+              case 'dano':
+                estado.haFicha.vida = Math.max(0, ficha.vida - valor)
+                break
+              case 'cura':
+                const vidaMaxima = ficha.vida ?? 0 
+                ficha.vida = Math.min(vidaMaxima, ficha.vida + valor)
+                break
+              default:
+                break
+            }
+          
+            // localStorage.setItem('@FichaJogador', JSON.stringify(ficha)
+          },
     }
 })
 
@@ -90,7 +106,7 @@ export const {
     nomeSobrevivente,
     modificarAtributo, 
     criarFichaPersonagem, 
-    calcularVida,
+    modificarFicha,
     pesquisarFicha}
     =personagemSlice.actions
 export default personagemSlice.reducer
